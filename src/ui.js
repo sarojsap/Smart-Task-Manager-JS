@@ -1,4 +1,4 @@
-import { getPriorityColor } from "./utils.js";
+import { getPriorityClass, formatDate } from "./utils.js";
 
 const taskListEl = document.getElementById("task-list");
 
@@ -51,4 +51,55 @@ export function renderTasks(tasks) {
     .join("");
 
   taskListEl.innerHTML = html;
+}
+
+function renderTask(task) {
+  const priorityClass = getPriorityClass(task.priority);
+  const completedClass = task.completed ? "line-through opacity-60" : "";
+  const checkedAttr = task.completed ? "checked" : "";
+
+  return `
+    <li
+      class="flex items-center justify-between p-3 border rounded ${priorityClass}"
+      data-id="${task.id}"
+    >
+      <div class="flex items-start gap-3">
+        <input
+          type="checkbox"
+          data-action="toggle"
+          ${checkedAttr}
+        />
+
+        <div>
+          <h3 class="font-medium ${completedClass}">
+            ${task.title}
+          </h3>
+
+          <p class="text-xs text-gray-600">
+            Due: ${formatDate(task.dueDate)}
+          </p>
+        </div>
+      </div>
+
+      <button
+        data-action="delete"
+        class="text-sm text-red-600 hover:underline"
+      >
+        Delete
+      </button>
+    </li>
+  `;
+}
+
+export function renderTasks(tasks) {
+  if (!tasks || tasks.length === 0) {
+    taskListEl.innerHTML = `
+      <li class="text-center text-gray-500 py-4">
+        No tasks found
+      </li>
+    `;
+    return;
+  }
+
+  taskListEl.innerHTML = tasks.map(renderTask).join("");
 }
