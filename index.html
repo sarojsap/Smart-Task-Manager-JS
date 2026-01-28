@@ -1,184 +1,406 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script type="module" src="src/app.js"></script>
-</head>
-<body>
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Smart Task Manager - A powerful task management system with priorities, due dates, filters, and more.">
+    <title>Smart Task Manager | Organize Your Work</title>
     
-</body>
-</html>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @custom-variant dark (&:where(.dark, .dark *));
+      
+      @theme {
+        --font-family-sans: 'Inter', system-ui, sans-serif;
+        --color-primary-50: #f5f3ff;
+        --color-primary-100: #ede9fe;
+        --color-primary-200: #ddd6fe;
+        --color-primary-300: #c4b5fd;
+        --color-primary-400: #a78bfa;
+        --color-primary-500: #8b5cf6;
+        --color-primary-600: #7c3aed;
+        --color-primary-700: #6d28d9;
+        --color-primary-800: #5b21b6;
+        --color-primary-900: #4c1d95;
+      }
+    </style>
+    
+    <!-- Custom CSS for animations only -->
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="src/app.js"></script>
+  </head>
 
-<!DOCTYPE html>
-<html lang="en" class="bg-gray-100 dark:bg-gray-900">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Task Manager</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <script type="module" src="src/app.js"></script>
-</head>
-
-<body class="text-gray-800 dark:text-gray-100 min-h-screen">
-
-  <!-- App Header -->
-  <header class="border-b border-gray-200 dark:border-gray-700">
-    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-semibold">Smart Task Manager</h1>
-
-      <!-- Dark mode toggle (JS later) -->
-      <button
-        id="theme-toggle"
-        class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-600"
-      >
-        Toggle Theme
-      </button>
+  <body class="min-h-screen bg-gradient-to-br from-slate-50 via-violet-50 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300">
+    
+    <!-- Animated Background Blobs -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-violet-400/30 to-fuchsia-400/30 dark:from-violet-600/20 dark:to-fuchsia-600/20 rounded-full blur-3xl animate-blob"></div>
+      <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-cyan-400/30 to-blue-400/30 dark:from-cyan-600/20 dark:to-blue-600/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 dark:from-emerald-600/10 dark:to-teal-600/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
     </div>
-  </header>
 
-  <!-- Main App -->
-  <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
-
-    <!-- Input Section -->
-    <section
-      aria-labelledby="task-input-title"
-      class="bg-white dark:bg-gray-800 p-4 rounded shadow"
-    >
-      <h2 id="task-input-title" class="font-medium mb-4">
-        Add New Task
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <!-- Title -->
-        <div class="md:col-span-2">
-          <label for="task-title" class="block text-sm mb-1">
-            Task Title
-          </label>
-          <input
-            id="task-title"
-            type="text"
-            placeholder="Enter task title"
-            class="w-full px-3 py-2 rounded border dark:bg-gray-700 dark:border-gray-600"
-          />
+    <!-- App Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-700/50 shadow-sm">
+      <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">Smart Task Manager</h1>
+            <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Organize • Prioritize • Execute</p>
+          </div>
         </div>
 
-        <!-- Priority -->
-        <div>
-          <label for="task-priority" class="block text-sm mb-1">
-            Priority
-          </label>
-          <select
-            id="task-priority"
-            class="w-full px-3 py-2 rounded border dark:bg-gray-700 dark:border-gray-600"
+        <!-- Header Actions -->
+        <div class="flex items-center gap-2">
+          <!-- Keyboard Shortcuts Button -->
+          <button
+            id="shortcuts-btn"
+            class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105"
+            title="Keyboard Shortcuts (?)"
           >
-            <option value="low">Low</option>
-            <option value="medium" selected>Medium</option>
-            <option value="high">High</option>
-          </select>
-        </div>
+            <svg class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+          </button>
 
-        <!-- Due Date -->
-        <div>
-          <label for="task-date" class="block text-sm mb-1">
-            Due Date
-          </label>
-          <input
-            id="task-date"
-            type="date"
-            class="w-full px-3 py-2 rounded border dark:bg-gray-700 dark:border-gray-600"
-          />
+          <!-- Theme Toggle Button -->
+          <button
+            id="theme-toggle"
+            class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105"
+            title="Toggle Dark/Light Mode (Alt+D)"
+          >
+            <!-- Sun Icon (shown in dark mode) -->
+            <svg id="sun-icon" class="w-5 h-5 text-amber-500 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <!-- Moon Icon (shown in light mode) -->
+            <svg id="moon-icon" class="w-5 h-5 text-slate-600 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+          </button>
         </div>
       </div>
+    </header>
 
-      <div class="mt-4 flex justify-end">
-        <button
-          id="add-task-btn"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Add Task
-        </button>
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-6 py-8 space-y-8">
+      
+      <!-- Stats Cards -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg shadow-violet-500/30 hover:-translate-y-1 transition-transform duration-300">
+          <span class="text-3xl font-bold" id="stat-total">0</span>
+          <span class="text-xs font-medium opacity-90 mt-1">Total Tasks</span>
+        </div>
+        <div class="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30 hover:-translate-y-1 transition-transform duration-300">
+          <span class="text-3xl font-bold" id="stat-pending">0</span>
+          <span class="text-xs font-medium opacity-90 mt-1">Pending</span>
+        </div>
+        <div class="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30 hover:-translate-y-1 transition-transform duration-300">
+          <span class="text-3xl font-bold" id="stat-inprogress">0</span>
+          <span class="text-xs font-medium opacity-90 mt-1">In Progress</span>
+        </div>
+        <div class="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/30 hover:-translate-y-1 transition-transform duration-300">
+          <span class="text-3xl font-bold" id="stat-completed">0</span>
+          <span class="text-xs font-medium opacity-90 mt-1">Completed</span>
+        </div>
+      </section>
+
+      <!-- Add New Task Section -->
+      <section class="p-6 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border border-white/50 dark:border-slate-700/50 shadow-xl">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Add New Task</h2>
+        </div>
+
+        <form id="task-form" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Task Title -->
+            <div class="md:col-span-2">
+              <label for="task-title" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+                Task Title <span class="text-rose-500">*</span>
+              </label>
+              <input
+                id="task-title"
+                type="text"
+                placeholder="What needs to be done?"
+                class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200 placeholder:text-slate-400"
+                required
+              />
+            </div>
+
+            <!-- Priority -->
+            <div>
+              <label for="task-priority" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+                Priority
+              </label>
+              <select id="task-priority" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200 cursor-pointer">
+                <option value="low">🟢 Low</option>
+                <option value="medium" selected>🟡 Medium</option>
+                <option value="high">🔴 High</option>
+              </select>
+            </div>
+
+            <!-- Due Date -->
+            <div>
+              <label for="task-date" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+                Due Date
+              </label>
+              <input
+                id="task-date"
+                type="date"
+                class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex justify-end gap-3 pt-2">
+            <button
+              type="button"
+              id="clear-form-btn"
+              class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-200"
+            >
+              Clear
+            </button>
+            <button
+              type="submit"
+              id="add-task-btn"
+              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+              Add Task
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Filters Section -->
+      <section class="p-6 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border border-white/50 dark:border-slate-700/50 shadow-xl">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Filters & Search</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Search -->
+          <div class="sm:col-span-2 lg:col-span-1">
+            <label for="search-input" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+              Search
+            </label>
+            <div class="relative">
+              <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Search tasks..."
+                class="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200 placeholder:text-slate-400"
+              />
+            </div>
+          </div>
+
+          <!-- Status Filter -->
+          <div>
+            <label for="status-filter" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+              Status
+            </label>
+            <select id="status-filter" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200 cursor-pointer">
+              <option value="all">📋 All Status</option>
+              <option value="pending">⏳ Pending</option>
+              <option value="inprogress">🔄 In Progress</option>
+              <option value="completed">✅ Completed</option>
+            </select>
+          </div>
+
+          <!-- Priority Filter -->
+          <div>
+            <label for="priority-filter" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+              Priority
+            </label>
+            <select id="priority-filter" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200 cursor-pointer">
+              <option value="all">🎯 All Priorities</option>
+              <option value="high">🔴 High</option>
+              <option value="medium">🟡 Medium</option>
+              <option value="low">🟢 Low</option>
+            </select>
+          </div>
+
+          <!-- Date Filter -->
+          <div>
+            <label for="date-filter" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
+              Due Date
+            </label>
+            <select id="date-filter" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200 cursor-pointer">
+              <option value="all">📅 All Dates</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="overdue">⚠️ Overdue</option>
+              <option value="nodate">No Date</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Quick Filter Pills -->
+        <div class="flex flex-wrap gap-2 mt-5 pt-5 border-t border-slate-200 dark:border-slate-700/50">
+          <button class="filter-pill px-4 py-2 text-xs font-medium rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 text-white shadow-md" data-filter="all">All</button>
+          <button class="filter-pill px-4 py-2 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-filter="pending">Pending</button>
+          <button class="filter-pill px-4 py-2 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-filter="inprogress">In Progress</button>
+          <button class="filter-pill px-4 py-2 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-filter="completed">Completed</button>
+          <button class="filter-pill px-4 py-2 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-filter="high">High Priority</button>
+          <button class="filter-pill px-4 py-2 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-filter="overdue">Overdue</button>
+        </div>
+      </section>
+
+      <!-- Task List Section -->
+      <section class="p-6 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border border-white/50 dark:border-slate-700/50 shadow-xl">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-md">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg font-semibold text-slate-800 dark:text-white">Your Tasks</h2>
+          </div>
+          <span id="task-count" class="text-sm text-slate-500 dark:text-slate-400 font-medium"></span>
+        </div>
+
+        <!-- Task List Container -->
+        <ul id="task-list" class="space-y-3"></ul>
+      </section>
+    </main>
+
+    <!-- Edit Task Modal -->
+    <div id="edit-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300">
+      <div class="w-full max-w-md p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-2xl transform scale-95 transition-transform duration-300">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Edit Task</h3>
+          <button id="close-modal" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <form id="edit-form" class="space-y-4">
+          <input type="hidden" id="edit-task-id">
+          
+          <div>
+            <label for="edit-task-title" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Task Title</label>
+            <input id="edit-task-title" type="text" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 focus:bg-white dark:focus:bg-slate-700 outline-none transition-all duration-200" required>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="edit-task-priority" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Priority</label>
+              <select id="edit-task-priority" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 outline-none transition-all duration-200 cursor-pointer">
+                <option value="low">🟢 Low</option>
+                <option value="medium">🟡 Medium</option>
+                <option value="high">🔴 High</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="edit-task-status" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Status</label>
+              <select id="edit-task-status" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 outline-none transition-all duration-200 cursor-pointer">
+                <option value="pending">⏳ Pending</option>
+                <option value="inprogress">🔄 In Progress</option>
+                <option value="completed">✅ Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="edit-task-date" class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">Due Date</label>
+            <input id="edit-task-date" type="date" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-700/50 border-2 border-transparent focus:border-violet-500 outline-none transition-all duration-200">
+          </div>
+
+          <div class="flex justify-end gap-3 pt-4">
+            <button type="button" id="cancel-edit" class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Cancel</button>
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200">Save Changes</button>
+          </div>
+        </form>
       </div>
-    </section>
+    </div>
 
-    <!-- Filter Section -->
-    <section
-      aria-labelledby="task-filter-title"
-      class="bg-white dark:bg-gray-800 p-4 rounded shadow"
-    >
-      <h2 id="task-filter-title" class="font-medium mb-4">
-        Filters
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Search -->
-        <div>
-          <label for="search-input" class="block text-sm mb-1">
-            Search
-          </label>
-          <input
-            id="search-input"
-            type="text"
-            placeholder="Search tasks..."
-            class="w-full px-3 py-2 rounded border dark:bg-gray-700 dark:border-gray-600"
-          />
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcuts-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300">
+      <div class="w-full max-w-md p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-2xl transform scale-95 transition-transform duration-300">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-slate-800 dark:text-white">⌨️ Keyboard Shortcuts</h3>
+          <button id="close-shortcuts" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
         </div>
 
-        <!-- Status Filter -->
-        <div>
-          <label for="status-filter" class="block text-sm mb-1">
-            Status
-          </label>
-          <select
-            id="status-filter"
-            class="w-full px-3 py-2 rounded border dark:bg-gray-700 dark:border-gray-600"
-          >
-            <option value="all">All</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
-          </select>
-        </div>
-
-        <!-- Priority Filter -->
-        <div>
-          <label for="priority-filter" class="block text-sm mb-1">
-            Priority
-          </label>
-          <select
-            id="priority-filter"
-            class="w-full px-3 py-2 rounded border dark:bg-gray-700 dark:border-gray-600"
-          >
-            <option value="all">All</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+            <span class="flex items-center gap-2">
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">Alt</kbd>
+              <span class="text-slate-400">+</span>
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">N</kbd>
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">New task</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+            <span class="flex items-center gap-2">
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">Alt</kbd>
+              <span class="text-slate-400">+</span>
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">S</kbd>
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">Focus search</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+            <span class="flex items-center gap-2">
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">Alt</kbd>
+              <span class="text-slate-400">+</span>
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">D</kbd>
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">Toggle dark mode</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+            <span class="flex items-center gap-2">
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">Esc</kbd>
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">Clear filters / Close modal</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+            <span class="flex items-center gap-2">
+              <kbd class="px-2 py-1 text-xs font-medium bg-white dark:bg-slate-600 rounded border border-slate-200 dark:border-slate-500 shadow-sm">?</kbd>
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">Show shortcuts</span>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Task List Section -->
-    <section
-      aria-labelledby="task-list-title"
-      class="bg-white dark:bg-gray-800 p-4 rounded shadow"
-    >
-      <h2 id="task-list-title" class="font-medium mb-4">
-        Tasks
-      </h2>
-
-      <!-- JS will inject tasks here -->
-      <ul
-        id="task-list"
-        class="space-y-2"
-      ></ul>
-    </section>
-
-  </main>
-
-  <!-- JS entry -->
-  <script type="module" src="./src/main.js"></script>
-</body>
+    <!-- Footer -->
+    <footer class="py-8 text-center">
+      <p class="text-sm text-slate-500 dark:text-slate-400">Smart Task Manager</p>
+    </footer>
+  </body>
 </html>

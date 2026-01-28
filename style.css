@@ -1,0 +1,127 @@
+/* ==========================================
+   SMART TASK MANAGER - Minimal Custom CSS
+   Only for animations that Tailwind can't handle
+   ========================================== */
+
+/* Background Blob Animation */
+@keyframes blob {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(20px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  75% {
+    transform: translate(30px, 10px) scale(1.05);
+  }
+}
+
+.animate-blob {
+  animation: blob 12s ease-in-out infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Task Item Slide Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.task-item-animate {
+  animation: slideIn 0.3s ease forwards;
+}
+
+/* Staggered animation delays for task items */
+.task-item-animate:nth-child(1) { animation-delay: 0s; }
+.task-item-animate:nth-child(2) { animation-delay: 0.05s; }
+.task-item-animate:nth-child(3) { animation-delay: 0.1s; }
+.task-item-animate:nth-child(4) { animation-delay: 0.15s; }
+.task-item-animate:nth-child(5) { animation-delay: 0.2s; }
+.task-item-animate:nth-child(6) { animation-delay: 0.25s; }
+.task-item-animate:nth-child(7) { animation-delay: 0.3s; }
+.task-item-animate:nth-child(8) { animation-delay: 0.35s; }
+.task-item-animate:nth-child(9) { animation-delay: 0.4s; }
+.task-item-animate:nth-child(10) { animation-delay: 0.45s; }
+
+/* Dragging state */
+.dragging {
+  opacity: 0.5;
+  transform: scale(1.02);
+}
+
+/* Modal show state */
+.modal-show {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.modal-show > div {
+  transform: scale(1) !important;
+}
+
+/* Toast notification animation */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes toastOut {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
