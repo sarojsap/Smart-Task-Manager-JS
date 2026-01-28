@@ -36,3 +36,18 @@ addBtn.addEventListener("click", (e) => {
   // Re-render
   renderTasks(Store.tasks);
 });
+
+function applyFilters() {
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const statusFilter = document.getElementById('statusSelect').value;
+    const priorityFilter = document.getElementById('prioritySelect').value;
+
+    const filtered = Store.tasks.filter(task => {
+        const matchesSearch = task.title.toLowerCase().includes(searchTerm);
+        const matchesStatus = statusFilter === 'All' || task.status === statusFilter;
+        const matchesPriority = priorityFilter === 'All' || task.priority === priorityFilter;
+        return matchesSearch && matchesStatus && matchesPriority;
+    });
+
+    UI.renderTasks(filtered);
+}
