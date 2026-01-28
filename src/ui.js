@@ -60,6 +60,7 @@ function renderTask(task) {
 
   return `
     <li
+        draggable="true"
       class="flex items-center justify-between p-3 border rounded ${priorityClass}"
       data-id="${task.id}"
     >
